@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
      # Add our new application
     'employee.apps.EmployeeConfig',
+    'store.apps.StoreConfig',
 ]
 
 MIDDLEWARE = [
