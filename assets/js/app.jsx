@@ -7,7 +7,7 @@ const handleSubmit = (event) => {
   const data = new FormData(event.target);
   fetch('/store/', {
     method: 'POST',
-    headers: {'username': 'abc1'}
+    headers: {'query': 'abc1'}
   });
 }
 

@@ -1,4 +1,4 @@
 node_modules/
-__pycache
+__pycache__
 bundles
 package-lock.json

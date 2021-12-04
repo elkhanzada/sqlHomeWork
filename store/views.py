@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 import cx_Oracle
 from elkhan.settings import DATABASES
 import os
@@ -44,6 +45,7 @@ def getInfo():
     return res
 
 # Create your views here.
+@csrf_exempt
 def index(request):
     cursor = connectToSqlServer()
     cmd = sqlGet("movie", ["movie_id", "picture"])
