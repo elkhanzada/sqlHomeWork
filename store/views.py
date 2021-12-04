@@ -52,6 +52,7 @@ def index(request):
     cursor.execute(cmd)
 
     randomThing = {'int2k': cursor.fetchall()}
-    if(request.method == "GET"):
-        print("result of Get is: ", request.GET.get('fname'))
+    if(request.method == "POST"):
+        print(request.headers['query']) #json
+        # print(request.GET.get)
     return render(request, 'templates/index.html', randomThing)
