@@ -1,21 +1,22 @@
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
 <html>
-<head>
-    Hello,
-</head>
-<body>
-    <div id="content"> Hello moth </div>
-    <form action="">
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname" value="John"><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname" value="Doe"><br><br>
-        <input type="submit" value="Submit">
-    </form>
-    <p id="json">
-        {{int2k}}
-    </p>
-    <script>
-        console.log("{{int2k}}");
-    </script>
-</body>
+  <script type="text/javascript">
+    /* Put your context vars here. I recommend putting them under 
+        a variable to avoid naming conflicts. 
+    */
+    var context = {
+        int2k: '{{int2k}}',
+    };
+  </script>
+  <head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+    {% render_bundle 'main' 'css' %}
+  </head>
+  
+  <body>
+    <div id="react-app"></div>
+    {% render_bundle 'main' 'js' %}
+  </body>
 </html>
