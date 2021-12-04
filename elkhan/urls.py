@@ -22,6 +22,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('employee/', include('employee.urls')),
     path('store/', include('store.urls')),
 ]
