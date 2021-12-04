@@ -4,6 +4,7 @@ import cx_Oracle
 from elkhan.settings import DATABASES
 import os
 import sys
+import json
  
 _user = DATABASES['default']['USER']
 _password = DATABASES['default']['PASSWORD']
@@ -44,14 +45,21 @@ def getInfo():
         print(row)
     return res
 
+def query_db(cur, query, args=(), one=False):
+    cur.execute(query, args)
+    r = [dict((cur.description[i][0], value) \
+               for i, value in enumerate(row)) for row in cur.fetchall()]
+    cur.connection.close()
+    return (r[0] if r else None) if one else r
+
 # Create your views here.
 @csrf_exempt
 def index(request):
     cursor = connectToSqlServer()
-    cmd = sqlGet("movie", ["movie_id", "picture"])
-    cursor.execute(cmd)
-
-    randomThing = {'int2k': cursor.fetchall()}
+    cmd = sqlGet("movie", ["movie_id", "picture", "name"])
+    my_query = query_db(cursor, cmd)
+    json_output = json.dumps(my_query)
+    randomThing = {'int2k': json_output}
     if(request.method == "POST"):
         print(request.headers['query']) #json
         # print(request.GET.get)
