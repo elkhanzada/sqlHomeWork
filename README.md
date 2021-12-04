@@ -28,3 +28,17 @@ INSTALLED_APPS = [
      # Add our new application
     '${appname}.apps.${appname}Config',
 ]
+
+
+## Run app
+    Install node.js, npm (https://nodejs.org/en/download/)
+    Install python
+
+### Install dependencies
+    pip install -r requirements.txt
+    npm install
+
+### Run app in 2 shells
+    ./node_modules/.bin/webpack --config webpack.config.js --watch
+
+    ./manage.py runserver
