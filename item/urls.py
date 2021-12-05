@@ -8,5 +8,6 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 urlpatterns = [
-     path('<str:qquery>', views.index),
+     path('<str:category>/<int:id>', views.index),
+
 ]

@@ -1,0 +1,158 @@
+<div id="root" />
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://unpkg.com/@mui/material@latest/umd/material-ui.production.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+<div data-json='{{int2k}}'></div>
+<div category-json={{category}}></div>
+
+<script type="text/babel">
+  const rootElement = document.getElementById('root');
+
+  const {
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    Avatar,
+    Button,
+    Select,
+    MenuItem,
+    TextField,
+    Typography,
+  } = MaterialUI;
+
+  const el = document.querySelector('[data-json]');
+  const items = JSON.parse((el.dataset.json));
+  const ele = document.querySelector('[category-json]');
+
+  const category = "{{category}}".toUpperCase();
+
+  class App extends React.Component {
+    state = {
+      json: items,
+      cat: category
+    };
+    componentDidMount() {
+    
+    }
+    processclick = (props) => {
+
+    }
+
+    render() {
+      if (this.state.cat == "MOVIE") {
+        return (
+          <div>
+            <Typography variant="body1" gutterBottom>
+            ID: {this.state.json[0]["MOVIE_ID"]}  
+            </Typography>
+            <Avatar
+                    src={this.state.json[0]['PICTURE']}
+            />
+            <Typography variant="body1" gutterBottom>
+            NAME: {this.state.json[0]["NAME"]}  
+            </Typography>
+
+            <Typography variant="body1" gutterBottom>
+            IMDB: {this.state.json[0]["IMDB"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            CATEGORY ID: {this.state.json[0]["CAT_ID"]}
+            </Typography>
+          </div>
+        );
+      }
+      if (this.state.cat == "GAME") {
+        return (
+          <div>
+            <Typography variant="body1" gutterBottom>
+            ID: {this.state.json[0]["GAME_ID"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            PRICE: {this.state.json[0]["PRICE"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            NAME: {this.state.json[0]["NAME"]}  
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            Installs: {this.state.json[0]["INSTALLS"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            CATEGORY ID: {this.state.json[0]["CAT_ID"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            DEVELOPER ID: {this.state.json[0]["DEV_ID"]}
+            </Typography>
+
+          </div>
+        );
+      }
+      if (this.state.cat == "BOOK") {
+        return (
+          <div>
+            <Typography variant="body1" gutterBottom>
+            ID: {this.state.json[0]["BOOK_ID"]}  
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            NAME: {this.state.json[0]["NAME"]}  
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            PUBLISHING DATE: {this.state.json[0]["PUB_DATE"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            NUMBER OF PAGES: {this.state.json[0]["NUM_OF_PAGES"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            ISBN: {this.state.json[0]["ISBN"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            CATEGORY ID: {this.state.json[0]["CAT_ID"]}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+            AUTHOR_ID: {this.state.json[0]["AUTHOR_ID"]}
+            </Typography>
+
+
+          </div>
+        );
+      }
+      return (
+        <div>
+          <Typography variant="body1" gutterBottom>
+            Search for anything:  
+          </Typography>
+
+          <List>
+            {this.state.json.map((value) => {
+              if (this.state.cat == "MOVIE")
+                return <ListItem key={value['MOVIE_ID']}>
+                  <ListItemAvatar>
+                  <Avatar
+                    src={value['PICTURE']}
+                  />
+                </ListItemAvatar>
+                  <ListItemText primary={value['NAME']}/>
+                </ListItem>
+              if (this.state.cat == "GAME")
+                return <ListItem key={value['GAME_ID']}>
+                  <ListItemText primary={value['NAME']}/>
+                </ListItem>
+              if (this.state.cat == "BOOK")
+                return <ListItem key={value['BOOK_ID']}>
+                  <ListItemText primary={value['NAME']}/>
+                </ListItem>
+
+            })}
+          </List>
+        </div>
+      );
+    }
+  }
+
+  ReactDOM.render(<App />, rootElement);
+    
+</script>
