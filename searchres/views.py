@@ -52,13 +52,18 @@ def query_db(cur, query, args=(), one=False):
     cur.connection.close()
     return (r[0] if r else None) if one else r
 
+sql_search_str = """
+select * from {}
+where name like '%{}%'
+"""
+
 # Create your views here.
 def index(request, query='', category=''):
     cursor = connectToSqlServer()
     info_about_items = [category + "_id", "name"]
     if category == "movie":
         info_about_items.append("picture")
-    cmd = sqlGet(category, info_about_items)
+    cmd = sql_search_str.format(category, query)
     my_query = query_db(cursor, cmd)
     json_output = json.dumps(my_query)
     randomThing = {'int2k': json_output, 'category': category}
