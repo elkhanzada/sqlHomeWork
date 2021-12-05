@@ -26,11 +26,13 @@ def sqlGet(tableName, things):
 
 get_item_str = """
 SELECT * FROM {0}
-WHERE {0}_id = {1}
+WHERE {1}_id = {2}
 """
 
+
+
 def sql_get_item(table_name, id):
-    return get_item_str.format(table_name, id)
+    return get_item_str.format(table_name, table_name, id)
 
 def connectToSqlServer():
     connection = cx_Oracle.connect(
@@ -54,18 +56,39 @@ def getInfo():
     return res
 
 def query_db(cur, query, args=(), one=False):
+    print(query)
     cur.execute(query, args)
     r = [dict((cur.description[i][0], value) \
                for i, value in enumerate(row)) for row in cur.fetchall()]
-    cur.connection.close()
     return (r[0] if r else None) if one else r
+
+
+def get_genre(cur, res, category):
+    print("GET GENRE")
+    if category == "movie":
+        return query_db(cur, get_item_str.format("category_mov_book", "cat", res["CAT_ID"]), one=True)["NAME"]
+    if category == "book":
+        return query_db(cur, get_item_str.format("category_mov_book", "cat", res["CAT_ID"]), one=True)["NAME"]
+    if category == "game":
+        return query_db(cur, get_item_str.format("category_game", "cat", res["CAT_ID"]), one=True)["NAME"]
+
+def get_author(cur, res, category):
+    if category == "movie":
+        return ""
+    if category == "book":
+        return query_db(cur, get_item_str.format("author", "author", res["AUTHOR_ID"]), one=True)["NAME"]
+    if category == "game":
+        return query_db(cur, get_item_str.format("developer", "dev", res["DEV_ID"]), one=True)["NAME"]
+
 
 # Create your views here.
 def index(request, category='', id=0):
     cursor = connectToSqlServer()
     cmd = sql_get_item(category, id)
-    print(cmd)
     my_query = query_db(cursor, cmd)
     json_output = json.dumps(my_query)
-    randomThing = {'int2k': json_output, 'category': category}
+
+    randomThing = {'int2k': json_output, 'category': category, 'genre': get_genre(cursor, my_query[0], category),  'author': get_author(cursor, my_query[0], category)}
+
+    cursor.connection.close()
     return render(request, 'templates/index3.html', randomThing)

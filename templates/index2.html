@@ -34,8 +34,9 @@
     componentDidMount() {
     
     }
-    processclick = (props) => {
 
+    processclick = (props) => {
+      window.location.href = '/item/' + this.state.cat.toLowerCase() + '/' + props.id;
     }
 
     render() {
@@ -44,7 +45,7 @@
           <List>
             {this.state.json.map((value) => {
               if (this.state.cat == "MOVIE")
-                return <ListItem key={value['MOVIE_ID']}>
+                return <ListItem key={value['MOVIE_ID']} onClick={() => this.processclick({id: value['MOVIE_ID']})}>
                   <ListItemAvatar>
                   <Avatar
                     src={value['PICTURE']}
@@ -53,11 +54,11 @@
                   <ListItemText primary={value['NAME']}/>
                 </ListItem>
               if (this.state.cat == "GAME")
-                return <ListItem key={value['GAME_ID']}>
+                return <ListItem key={value['GAME_ID']} onClick={() => this.processclick({id: value['GAME_ID']})}>
                   <ListItemText primary={value['NAME']}/>
                 </ListItem>
               if (this.state.cat == "BOOK")
-                return <ListItem key={value['BOOK_ID']}>
+                return <ListItem key={value['BOOK_ID']} onClick={() => this.processclick({id: value['BOOK_ID']})}>
                   <ListItemText primary={value['NAME']}/>
                 </ListItem>
 

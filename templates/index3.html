@@ -23,6 +23,7 @@
     MenuItem,
     TextField,
     Typography,
+    Divider
   } = MaterialUI;
 
   const el = document.querySelector('[data-json]');
@@ -30,6 +31,9 @@
   const ele = document.querySelector('[category-json]');
 
   const category = "{{category}}".toUpperCase();
+
+  console.log("{{genre}}")
+  console.log("{{author}}")
 
   class App extends React.Component {
     state = {
@@ -61,8 +65,10 @@
             IMDB: {this.state.json[0]["IMDB"]}
             </Typography>
             <Typography variant="body1" gutterBottom>
-            CATEGORY ID: {this.state.json[0]["CAT_ID"]}
+            CATEGORY: {{category}}
             </Typography>
+
+            <Divider />
           </div>
         );
       }
@@ -82,12 +88,13 @@
             Installs: {this.state.json[0]["INSTALLS"]}
             </Typography>
             <Typography variant="body1" gutterBottom>
-            CATEGORY ID: {this.state.json[0]["CAT_ID"]}
+            CATEGORY: {{genre}}
             </Typography>
             <Typography variant="body1" gutterBottom>
-            DEVELOPER ID: {this.state.json[0]["DEV_ID"]}
+            DEVELOPER: {{author}}
             </Typography>
 
+            <Divider />
           </div>
         );
       }
@@ -110,13 +117,13 @@
             ISBN: {this.state.json[0]["ISBN"]}
             </Typography>
             <Typography variant="body1" gutterBottom>
-            CATEGORY ID: {this.state.json[0]["CAT_ID"]}
+            CATEGORY: {{genre}}
             </Typography>
             <Typography variant="body1" gutterBottom>
-            AUTHOR_ID: {this.state.json[0]["AUTHOR_ID"]}
+            AUTHOR: {{author}}
             </Typography>
 
-
+            <Divider />
           </div>
         );
       }
