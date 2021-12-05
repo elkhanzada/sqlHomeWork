@@ -23,4 +23,6 @@ urlpatterns = [
 
 urlpatterns += [
     path('store/', include('store.urls')),
+    path('searchres/', include('searchres.urls')),
+
 ]

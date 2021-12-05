@@ -1,23 +1,62 @@
-{% load render_bundle from webpack_loader %}
-<!DOCTYPE html>
-<html>
-  <script type="text/javascript">
-    /* Put your context vars here. I recommend putting them under 
-        a variable to avoid naming conflicts. 
-    */
-    var context = {
-        int2k: '{{int2k}}',
+<div id="root" />
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.16.4/babel.min.js"></script>
+<script src="https://unpkg.com/@mui/material@latest/umd/material-ui.production.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<script type="text/babel">
+  const rootElement = document.getElementById('root');
+  const {
+    Button,
+    Select,
+    MenuItem,
+    TextField,
+    Typography,
+  } = MaterialUI;
+  class App extends React.Component {
+    state = {
+      text: '',
+      category: 'book'
     };
-  </script>
-  <head>
-    <meta charset="UTF-8">
-    <title>Example</title>
-    {% render_bundle 'main' 'css' %}
-  </head>
-  
-  <body>
-    <div id="react-app"></div>
-    <p>{{int2k}}</p>
-    {% render_bundle 'main' 'js' %}
-  </body>
-</html>
+
+    componentDidMount() {
+    }
+
+    processclick = () => {
+      window.location.href = '/searchres/' + this.state.category + '/' + this.state.text;
+    }
+
+    handleTextChange = event => {
+      this.setState({text: event.target.value})
+    };
+
+    handleCategoryChange = event => {
+      this.setState({category: event.target.value})
+    };
+
+    render() {
+      console.log("{{int2k}}");
+      return (
+        <div>
+          <Typography variant="body1" gutterBottom>
+            Search for anything:  
+          </Typography>
+          <Select value={this.state.category} onChange={this.handleCategoryChange}>
+            <MenuItem value="book">Book</MenuItem>
+            <MenuItem value="movie">Movie</MenuItem>
+            <MenuItem value="game">Game</MenuItem>
+          </Select>
+          <TextField onChange={this.handleTextChange} />
+          <Button onClick={() => this.processclick()}>
+            Search
+          </Button>
+
+        </div>
+      );
+    }
+  }
+
+  ReactDOM.render(<App />, rootElement);
+    
+</script>
