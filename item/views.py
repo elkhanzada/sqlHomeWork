@@ -27,6 +27,7 @@ def sqlGet(tableName, things):
 get_item_str = """
 SELECT * FROM {0}
 WHERE {1}_id = {2}
+FETCH FIRST 10 ROWS ONLY
 """
 
 
@@ -80,15 +81,41 @@ def get_author(cur, res, category):
     if category == "game":
         return query_db(cur, get_item_str.format("developer", "dev", res["DEV_ID"]), one=True)["NAME"]
 
+def get_in_same_genre(cur, res, category):
+    print("GET GENRE")
+    if category == "movie":
+        return query_db(cur, get_item_str.format("movie", "cat", res["CAT_ID"]))
+    if category == "book":
+        return query_db(cur, get_item_str.format("book", "cat", res["CAT_ID"]))
+    if category == "game":
+        return query_db(cur, get_item_str.format("game", "cat", res["CAT_ID"]))
+
+
+def get_in_same_author(cur, res, category):
+    if category == "movie":
+        return []
+    if category == "book":
+        return query_db(cur, get_item_str.format("book", "author", res["AUTHOR_ID"]))
+    if category == "game":
+        return query_db(cur, get_item_str.format("game", "dev", res["DEV_ID"]))
+
+get_item_str2 = """
+SELECT AVG(score) FROM rating
+WHERE {0}_id = {1}
+"""
+
+
+def get_rating(cur, res, category):
+    return query_db(cur, get_item_str2.format(category, res[category.upper() + "_ID"]), one=True)['AVG(SCORE)']
 
 # Create your views here.
 def index(request, category='', id=0):
     cursor = connectToSqlServer()
     cmd = sql_get_item(category, id)
     my_query = query_db(cursor, cmd)
-    json_output = json.dumps(my_query)
+    json_output = json.dumps(my_query + get_in_same_genre(cursor, my_query[0], category) + get_in_same_author(cursor, my_query[0], category))
 
-    randomThing = {'int2k': json_output, 'category': category, 'genre': get_genre(cursor, my_query[0], category),  'author': get_author(cursor, my_query[0], category)}
+    randomThing = {'int2k': json_output, 'category': category, 'genre': get_genre(cursor, my_query[0], category),  'author': get_author(cursor, my_query[0], category), 'rating': get_rating(cursor, my_query[0], category)}
 
     cursor.connection.close()
     return render(request, 'templates/index3.html', randomThing)

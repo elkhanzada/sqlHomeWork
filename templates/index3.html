@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 <div data-json='{{int2k}}'></div>
-<div category-json={{category}}></div>
 
 <script type="text/babel">
   const rootElement = document.getElementById('root');
@@ -27,8 +26,9 @@
   } = MaterialUI;
 
   const el = document.querySelector('[data-json]');
+
+  console.log(el.dataset.json)
   const items = JSON.parse((el.dataset.json));
-  const ele = document.querySelector('[category-json]');
 
   const category = "{{category}}".toUpperCase();
 
@@ -38,13 +38,13 @@
   class App extends React.Component {
     state = {
       json: items,
-      cat: category
+      cat: category,
     };
     componentDidMount() {
     
     }
     processclick = (props) => {
-
+      window.location.href = '/item/' + this.state.cat.toLowerCase() + '/' + props.id;
     }
 
     render() {
@@ -67,8 +67,29 @@
             <Typography variant="body1" gutterBottom>
             CATEGORY: {{category}}
             </Typography>
+            <Typography variant="body1" gutterBottom>
+            RATING: {{rating}}
+            </Typography>
 
             <Divider />
+            <Typography variant="body1" gutterBottom>
+            SIMILAR ITEMS
+            </Typography>
+
+            <List>
+                {this.state.json.map((value) => {
+                  if (value['MOVIE_ID'] !== this.state.json[0]['MOVIE_ID'])
+                    return <ListItem key={value['MOVIE_ID']} onClick={() => this.processclick({id: value['MOVIE_ID']})}>
+                      <ListItemAvatar>
+                      <Avatar
+                        src={value['PICTURE']}
+                      />
+                    </ListItemAvatar>
+                      <ListItemText primary={value['NAME']}/>
+                    </ListItem>
+                })}
+            </List>
+
           </div>
         );
       }
@@ -93,8 +114,26 @@
             <Typography variant="body1" gutterBottom>
             DEVELOPER: {{author}}
             </Typography>
+            <Typography variant="body1" gutterBottom>
+            RATING: {{rating}}
+            </Typography>
 
             <Divider />
+            <Typography variant="body1" gutterBottom>
+            SIMILAR ITEMS
+            </Typography>
+
+            <List>
+                {this.state.json.map((value) => {
+                  if (value['GAME_ID'] !== this.state.json[0]['GAME_ID'])
+                    return <ListItem key={value['GAME_ID']} onClick={() => this.processclick({id: value['GAME_ID']})}>
+
+                      <ListItemText primary={value['NAME']}/>
+                    </ListItem>
+                })}
+            </List>
+
+
           </div>
         );
       }
@@ -122,41 +161,29 @@
             <Typography variant="body1" gutterBottom>
             AUTHOR: {{author}}
             </Typography>
+            <Typography variant="body1" gutterBottom>
+            RATING: {{rating}}
+            </Typography>
 
             <Divider />
+            <Typography variant="body1" gutterBottom>
+            SIMILAR ITEMS
+            </Typography>
+
+            <List>
+                {this.state.json.map((value) => {
+                  if (value['BOOK_ID'] !== this.state.json[0]['BOOK_ID'])
+                    return <ListItem key={value['BOOK_ID']} onClick={() => this.processclick({id: value['BOOK_ID']})}>
+
+                      <ListItemText primary={value['NAME']}/>
+                    </ListItem>
+                })}
+            </List>
+
           </div>
         );
       }
-      return (
-        <div>
-          <Typography variant="body1" gutterBottom>
-            Search for anything:  
-          </Typography>
 
-          <List>
-            {this.state.json.map((value) => {
-              if (this.state.cat == "MOVIE")
-                return <ListItem key={value['MOVIE_ID']}>
-                  <ListItemAvatar>
-                  <Avatar
-                    src={value['PICTURE']}
-                  />
-                </ListItemAvatar>
-                  <ListItemText primary={value['NAME']}/>
-                </ListItem>
-              if (this.state.cat == "GAME")
-                return <ListItem key={value['GAME_ID']}>
-                  <ListItemText primary={value['NAME']}/>
-                </ListItem>
-              if (this.state.cat == "BOOK")
-                return <ListItem key={value['BOOK_ID']}>
-                  <ListItemText primary={value['NAME']}/>
-                </ListItem>
-
-            })}
-          </List>
-        </div>
-      );
     }
   }
 
