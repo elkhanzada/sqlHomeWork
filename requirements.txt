@@ -1,4 +1,4 @@
-Django
+django
 django-webpack-loader
 django-cors-headers
-restframework
+djangorestframework
