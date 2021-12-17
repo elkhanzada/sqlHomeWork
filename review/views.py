@@ -30,7 +30,7 @@ def connectToSqlServer():
         password=_password,
         dsn=_dsn)
     cursor = connection.cursor()
-    return cursor
+    return cursor, connection
 
 def getInfo():
     connection = cx_Oracle.connect(
@@ -62,6 +62,15 @@ SELECT * FROM review
 WHERE user_id = {0}
 """
 
+sql_delete_review_from_id = """
+DELETE FROM review WHERE review_id = {0}
+"""
+
+def deleteReviewFromID(id):
+    cursor, connection = connectToSqlServer()
+    cursor.execute(sql_delete_review_from_id.format(id))
+    connection.commit()
+
 def getUserIDFromName(cur, userName=''):
     return query_db(cur, sql_get_userID.format(userName), one = True)["USER_ID"]
 
@@ -72,9 +81,11 @@ def getReviewsFromUserID(cur, userID=0): # dictionary
 @csrf_exempt
 def index(request, userName=''):
     if (request.method == "POST"):
-        print("post request: ", request.headers["deleteReq"])
+        print("post request to delete review id: ", request.headers["deleteReq"])
+        id = int(request.headers["deleteReq"])
+        deleteReviewFromID(id)
         return
-    cursor = connectToSqlServer()
+    cursor, connection = connectToSqlServer()
     myQuery = getReviewsFromUserID(cursor, getUserIDFromName(cursor, userName)) # reviews dict
     json_output = json.dumps(myQuery)
     randomThing = {'int2k': json_output, 'userName':userName}
