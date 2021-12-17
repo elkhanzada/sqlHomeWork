@@ -50,7 +50,7 @@ def connectToSqlServer():
         password=_password,
         dsn=_dsn)
     cursor = connection.cursor()
-    return cursor
+    return cursor, connection
 
 def getInfo():
     connection = cx_Oracle.connect(
@@ -123,6 +123,22 @@ SELECT * FROM review
 WHERE {0}_id = {1}
 """
 
+get_max_review_id_str = """
+SELECT MAX(REVIEW_ID) from REVIEW
+"""
+
+get_max_user_id_str = """
+SELECT MAX(USER_ID) from USERS
+"""
+
+sql_get_userID = """
+SELECT user_id FROM users 
+WHERE name = '{0}'
+"""
+
+def getUserIDFromName(cur, userName=''):
+    return query_db(cur, sql_get_userID.format(userName), one = True)
+
 def get_review(cur, ID, category):
     return query_db(cur, get_review_for_item.format(category, ID))
 
@@ -134,13 +150,69 @@ def get_rating(cur, res, category):
         a = b
     return a
 
+create_user_str = """
+insert into users (user_id, name, password, email) values({0}, '{1}', '{2}', '{3}')
+"""
+
+create_review_str = """
+insert into review (user_id, game_id, book_id, movie_id, review_id, comment_txt, rating) values({0}, {1}, {2}, {3}, {4}, '{5}', {6})
+"""
+
+def get_max_review_id(cur):
+    res = query_db(cur, get_max_review_id_str, one=True)
+    if res is None:
+        res = 0
+    else:
+        res = res['MAX(REVIEW_ID)']
+    if res is None:
+        res = 0
+    return res
+
+def get_max_user_id(cur):
+    res = query_db(cur, get_max_user_id_str, one=True)
+    if res is None:
+        res = 0
+    else:
+        res = res['MAX(USER_ID)']
+    if res is None:
+        res = 0
+    return res
+
+def find_user_id_by_name(cur, connection, name):
+    res = getUserIDFromName(cur, name)
+    if res is None:
+        # Create user
+        user_id = get_max_user_id(cur) + 1
+        password = 'some nonsense'
+        email = 'hello@professor.unist.ac.kr'
+        cur.execute(create_user_str.format(user_id, name, password, email), ())
+        connection.commit()
+        return user_id
+    return res
+
 # Create your views here.
 @csrf_exempt
 def index(request, category='', id=0):
-    cursor = connectToSqlServer()
+    cursor, connection = connectToSqlServer()
     if(request.method=="POST"):
         print("Add review post request: ", request.headers['reviewText'], " ", request.headers['reviewRating'], 
         " ", request.headers['reviewUserName'])
+        review_id = get_max_review_id(cursor) + 1
+        user_id = find_user_id_by_name(cursor, connection, request.headers['reviewUserName'])
+        game_id = book_id = movie_id = None
+        if category == 'GAME':
+            game_id = id
+        if category == 'BOOK':
+            book_id = id
+        if category == 'MOVIE':
+            movie_id = id
+        comment_txt = request.headers['reviewText']
+        rating = int(request.headers['reviewRating'])
+        #  (user_id, game_id, book_id, movie_id, review_id, comment_txt, rating)
+        print("CREATE REVIEW:", create_review_str.format(user_id, game_id, book_id, movie_id, review_id, comment_txt, rating))
+        cursor.execute( create_review_str.format(user_id, game_id, book_id, movie_id, review_id, comment_txt, rating), ())
+        connection.commit()
+    
         return
     cmd = sql_get_item(category, id)
     my_query = query_db(cursor, cmd)

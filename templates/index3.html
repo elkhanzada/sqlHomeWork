@@ -46,6 +46,7 @@
       reviewText:'',
       reviewRating:5,
       reviewUserName:'',
+      userReviews:reviews
     };
     componentDidMount() {
     
@@ -99,6 +100,22 @@
             <Typography variant="body1" gutterBottom>
             RATING: {{rating}}
             </Typography>
+
+            <List>
+                {this.state.userReviews.map((value) => {
+                    return <ListItem key={value['REVIEW_ID']} >
+                        <Typography variant="body1" gutterBottom>
+                            {value['USER_ID']} 
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            {value['COMMENT_TXT']} 
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            {value['RATING']} 
+                        </Typography>
+                    </ListItem>
+                })}
+            </List>
 
             <TextField onChange={this.handleTextChange} />
             <TextField onChange={this.handleUserNameChange} />
@@ -155,6 +172,23 @@
             RATING: {{rating}}
             </Typography>
             
+            <List>
+                {this.state.userReviews.map((value) => {
+                    return <ListItem key={value['REVIEW_ID']} >
+                        <Typography variant="body1" gutterBottom>
+                            {value['USER_ID']} 
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            {value['COMMENT_TXT']} 
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            {value['RATING']} 
+                        </Typography>
+                    </ListItem>
+                })}
+            </List>
+
+
             <TextField onChange={this.handleTextChange} />
             <TextField onChange={this.handleUserNameChange} />
             <TextField onChange={this.handleRatingChange} />
@@ -210,6 +244,22 @@
             RATING: {{rating}}
             </Typography>
             
+            <List>
+                {this.state.userReviews.map((value) => {
+                    return <ListItem key={value['REVIEW_ID']} >
+                        <Typography variant="body1" gutterBottom>
+                            {value['USER_ID']} 
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            {value['COMMENT_TXT']} 
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            {value['RATING']} 
+                        </Typography>
+                    </ListItem>
+                })}
+            </List>
+
             <TextField onChange={this.handleTextChange} />
             <TextField onChange={this.handleUserNameChange} />
             <TextField onChange={this.handleRatingChange} />

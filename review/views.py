@@ -54,6 +54,7 @@ def query_db(cur, query, args=(), one=False):
 
 sql_get_userID = """
 SELECT user_id FROM users 
+WHERE name = '{0}'
 """
 
 sql_get_reviews_userID = """
