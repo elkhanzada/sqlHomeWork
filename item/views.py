@@ -66,7 +66,7 @@ def getInfo():
     return res
 
 def query_db(cur, query, args=(), one=False):
-    print(query)
+    #print(query)
     cur.execute(query, args)
     r = [dict((cur.description[i][0], value) \
                for i, value in enumerate(row)) for row in cur.fetchall()]
@@ -118,8 +118,16 @@ SELECT rating FROM {0}
 WHERE {0}_id = {1}
 """
 
+get_review_for_item = """
+SELECT * FROM review
+WHERE {0}_id = {1}
+"""
+
+def get_review(cur, ID, category):
+    return query_db(cur, get_review_for_item.format(category, ID))
+
 def get_rating(cur, res, category):
-    print(get_item_str2.format(category, res[category.upper() + "_ID"]))
+    #print(get_item_str2.format(category, res[category.upper() + "_ID"]))
     a = query_db(cur, get_item_str2.format(category, res[category.upper() + "_ID"]), one=True)['AVG(RATING)']
     b = query_db(cur, get_default_rating.format(category, res[category.upper() + "_ID"]), one=True)['RATING']
     if a is None:
@@ -127,11 +135,26 @@ def get_rating(cur, res, category):
     return a
 
 # Create your views here.
+@csrf_exempt
 def index(request, category='', id=0):
     cursor = connectToSqlServer()
+    if(request.method=="POST"):
+        print("Add review post request: ", request.headers['reviewText'], " ", request.headers['reviewRating'], 
+        " ", request.headers['reviewUserName'])
+        return
     cmd = sql_get_item(category, id)
     my_query = query_db(cursor, cmd)
+    my_reviews = get_review(cursor, id, category)
     json_output = json.dumps(my_query + get_in_same_genre(cursor, my_query[0], category) + get_in_same_author(cursor, my_query[0], category))
-    randomThing = {'int2k': json_output, 'category': category, 'genre': get_genre(cursor, my_query[0], category),  'author': get_author(cursor, my_query[0], category), 'rating': get_rating(cursor, my_query[0], category)}
+    my_reviews_json = json.dumps(my_reviews)
+
+    randomThing = {
+        'int2k': json_output, 
+        'reviews': my_reviews_json,
+        'category': category, 
+        'genre': get_genre(cursor, my_query[0], category),  
+        'author': get_author(cursor, my_query[0], category), 
+        'rating': get_rating(cursor, my_query[0], category),
+    }
     cursor.connection.close()
     return render(request, 'templates/index3.html', randomThing)

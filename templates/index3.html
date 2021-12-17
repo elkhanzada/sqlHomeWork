@@ -6,7 +6,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
-<div data-json='{{int2k}}'></div>
+<div id='int2kjson' data-json='{{int2k}}'></div>
+<div id='reviewsjson' data-json='{{reviews}}'></div>
 
 <script type="text/babel">
   const rootElement = document.getElementById('root');
@@ -25,10 +26,13 @@
     Divider
   } = MaterialUI;
 
-  const el = document.querySelector('[data-json]');
+  const el = document.querySelector('#int2kjson');
+  const elReview = document.querySelector('#reviewsjson')
 
   console.log(el.dataset.json)
+  console.log(elReview.dataset.json)
   const items = JSON.parse((el.dataset.json));
+  const reviews = JSON.parse((elReview.dataset.json));
 
   const category = "{{category}}".toUpperCase();
 
@@ -39,12 +43,37 @@
     state = {
       json: items,
       cat: category,
+      reviewText:'',
+      reviewRating:5,
+      reviewUserName:'',
     };
     componentDidMount() {
     
     }
     processclick = (props) => {
       window.location.href = '/item/' + this.state.cat.toLowerCase() + '/' + props.id;
+    }
+
+    addReview = (props) => {
+        fetch('/item/' + this.state.cat.toLowerCase() + '/' + props.id, {
+            method: 'POST',
+            headers: {'reviewText': this.state.reviewText, 'reviewRating': this.state.reviewRating, 'reviewUserName': this.state.reviewUserName}
+        }).then(function(response) {
+            return
+        })
+        window.location.href = '/item/' + this.state.cat.toLowerCase() + '/' + props.id
+    }
+
+    handleTextChange = event => {
+      this.setState({reviewText: event.target.value})
+    };
+
+    handleUserNameChange = event => {
+      this.setState({reviewUserName: event.target.value})
+    }
+
+    handleRatingChange = event => {
+      this.setState({reviewRating: event.target.value})
     }
 
     render() {
@@ -70,6 +99,14 @@
             <Typography variant="body1" gutterBottom>
             RATING: {{rating}}
             </Typography>
+
+            <TextField onChange={this.handleTextChange} />
+            <TextField onChange={this.handleUserNameChange} />
+            <TextField onChange={this.handleRatingChange} />
+            <Button onClick={() => this.addReview({
+                id: this.state.json[0]['MOVIE_ID']})}>
+              Submit
+            </Button>
 
             <Divider />
             <Typography variant="body1" gutterBottom>
@@ -117,6 +154,14 @@
             <Typography variant="body1" gutterBottom>
             RATING: {{rating}}
             </Typography>
+            
+            <TextField onChange={this.handleTextChange} />
+            <TextField onChange={this.handleUserNameChange} />
+            <TextField onChange={this.handleRatingChange} />
+            <Button onClick={() => this.addReview({
+                id: this.state.json[0]['GAME_ID']})}>
+              Submit
+            </Button>
 
             <Divider />
             <Typography variant="body1" gutterBottom>
@@ -164,6 +209,14 @@
             <Typography variant="body1" gutterBottom>
             RATING: {{rating}}
             </Typography>
+            
+            <TextField onChange={this.handleTextChange} />
+            <TextField onChange={this.handleUserNameChange} />
+            <TextField onChange={this.handleRatingChange} />
+            <Button onClick={() => this.addReview({
+                id: this.state.json[0]['BOOK_ID']})}>
+              Submit
+            </Button>
 
             <Divider />
             <Typography variant="body1" gutterBottom>
