@@ -31,10 +31,11 @@ INSTALLED_APPS = [
     '${appname}.apps.${appname}Config',
 ]
 ### Install dependencies
+```bash
     pip install -r requirements.txt
-
+```
 ### How to Run
     Run the server and go to http://localhost:8000/store/
-    ```bash
+```bash
     python manage.py runserver
-    ```
+```
