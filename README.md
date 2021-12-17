@@ -11,7 +11,7 @@ The default one follows exactly what Assignment 2 does.
     "default": {
         "ENGINE": "django.db.backends.oracle",
         "NAME": "xe",
-        "USER": 'unist',
+        "USER": "unist",
         "PASSWORD": "unist",
         "HOST": "127.0.0.1", 
         "PORT": "1521"
@@ -23,7 +23,7 @@ The default one follows exactly what Assignment 2 does.
     pip install -r requirements.txt
 ```
 ### How to Run
-    Run the server and go to http://localhost:8000/store/
+Run the server and go to http://localhost:8000/store/
 ```bash
     python manage.py runserver
 ```
