@@ -105,20 +105,29 @@
                 {this.state.userReviews.map((value) => {
                     return <ListItem key={value['REVIEW_ID']} >
                         <Typography variant="body1" gutterBottom>
-                            {value['USER_ID']} 
+                          userid: {value['USER_ID']} .
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            {value['COMMENT_TXT']} 
+                          comment: {value['COMMENT_TXT']} .
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            {value['RATING']} 
+                          rating: {value['RATING']} .
                         </Typography>
                     </ListItem>
                 })}
             </List>
 
+            <Typography variant="body1" gutterBottom>
+              put your comment:                
+            </Typography>
             <TextField onChange={this.handleTextChange} />
+            <Typography variant="body1" gutterBottom>
+              put your userName:                
+            </Typography>
             <TextField onChange={this.handleUserNameChange} />
+            <Typography variant="body1" gutterBottom>
+              put your rating (1 - 5):                
+            </Typography>
             <TextField onChange={this.handleRatingChange} />
             <Button onClick={() => this.addReview({
                 id: this.state.json[0]['MOVIE_ID']})}>
@@ -176,21 +185,29 @@
                 {this.state.userReviews.map((value) => {
                     return <ListItem key={value['REVIEW_ID']} >
                         <Typography variant="body1" gutterBottom>
-                            {value['USER_ID']} 
+                            userid: {value['USER_ID']} .
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            {value['COMMENT_TXT']} 
+                            comment: {value['COMMENT_TXT']} .
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            {value['RATING']} 
+                            rating: {value['RATING']} .
                         </Typography>
                     </ListItem>
                 })}
             </List>
 
-
+            <Typography variant="body1" gutterBottom>
+              put your comment:                
+            </Typography>
             <TextField onChange={this.handleTextChange} />
+            <Typography variant="body1" gutterBottom>
+              put your userName:                
+            </Typography>
             <TextField onChange={this.handleUserNameChange} />
+            <Typography variant="body1" gutterBottom>
+              put your rating (1 - 5):                
+            </Typography>
             <TextField onChange={this.handleRatingChange} />
             <Button onClick={() => this.addReview({
                 id: this.state.json[0]['GAME_ID']})}>
@@ -260,8 +277,17 @@
                 })}
             </List>
 
+            <Typography variant="body1" gutterBottom>
+              put your comment:                
+            </Typography>
             <TextField onChange={this.handleTextChange} />
+            <Typography variant="body1" gutterBottom>
+              put your userName:                
+            </Typography>
             <TextField onChange={this.handleUserNameChange} />
+            <Typography variant="body1" gutterBottom>
+              put your rating (1 - 5):                
+            </Typography>
             <TextField onChange={this.handleRatingChange} />
             <Button onClick={() => this.addReview({
                 id: this.state.json[0]['BOOK_ID']})}>
