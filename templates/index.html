@@ -16,10 +16,10 @@
   } = MaterialUI;
   class App extends React.Component {
     state = {
-      text: '',
+      text: 'None',
       category: 'book',
       genre: '2',
-      publisher: '',
+      publisher: 'None',
       rating: "0-6"
     };
 
@@ -27,6 +27,7 @@
     }
 
     processclick = () => {
+
       if(this.state.category == "movie"){
       window.location.href = '/searchres/' + this.state.category+'/'+this.state.genre+'/'+this.state.rating+'/' + this.state.text;
       }else if (this.state.category=="book"){

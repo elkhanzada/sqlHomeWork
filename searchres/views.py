@@ -79,6 +79,10 @@ order by -rating
 
 # Create your views here.
 def index(request, query='', category='', genre='', rating='',publisher=''):
+    if publisher == 'None':
+        publisher = ''
+    if query == 'None':
+        query = ''
     cursor = connectToSqlServer()
     pub_table = ""
     pub_id = ""
@@ -99,9 +103,9 @@ def index(request, query='', category='', genre='', rating='',publisher=''):
     return render(request, 'templates/index2.html', randomThing)
 
 def index_movie(request, query='', category='', genre='', rating=''):
+    if query == 'None':
+        query = ''
     cursor = connectToSqlServer()
-    pub_table = ""
-    pub_id = ""
     cmd = ""
     ts = rating.split("-")
     info_about_items = [category + "_id", "name"]
