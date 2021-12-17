@@ -55,17 +55,59 @@ def query_db(cur, query, args=(), one=False):
 sql_search_str = """
 select * from {}
 where name like '%{}%'
+and
+cat_id={}
+and
+rating>={}
+and
+rating<{}
+and
+{}_id=ANY(select {}_id from {} where name like '%{}%')
+order by -rating
+"""
+sql_search_movie_str = """
+select * from {}
+where name like '%{}%'
+and
+cat_id={}
+and
+rating>={}
+and
+rating<{}
 order by -rating
 """
 
 # Create your views here.
-def index(request, query='', category=''):
+def index(request, query='', category='', genre='', rating='',publisher=''):
     cursor = connectToSqlServer()
+    pub_table = ""
+    pub_id = ""
+    cmd = ""
+    ts = rating.split("-")
+    if category == "game":
+        pub_table="developer"
+        pub_id = "dev"
+        cmd = sql_search_str.format(category,query.upper(),genre.upper(),int(ts[0]),int(ts[1]),pub_id.upper(),pub_id.upper(),pub_table.upper(),publisher.upper())
+    elif category == "book":
+        pub_table = "author"
+        pub_id = pub_table
+        cmd = sql_search_str.format(category,query.upper(),genre.upper(),int(ts[0]),int(ts[1]),pub_id.upper(),pub_id.upper(),pub_table.upper(),publisher.upper())
+    my_query = query_db(cursor, cmd)
+    json_output = json.dumps(my_query)
+    randomThing = {'int2k': json_output, 'category': category}
+    print(category, query)
+    return render(request, 'templates/index2.html', randomThing)
+
+def index_movie(request, query='', category='', genre='', rating=''):
+    cursor = connectToSqlServer()
+    pub_table = ""
+    pub_id = ""
+    cmd = ""
+    ts = rating.split("-")
     info_about_items = [category + "_id", "name"]
     if category == "movie":
         info_about_items.append("picture")
-    query = query.upper()
-    cmd = sql_search_str.format(category, query)
+        cmd = sql_search_movie_str.format(category,query.upper(),genre.upper(),int(ts[0]),int(ts[1]))
     my_query = query_db(cursor, cmd)
     json_output = json.dumps(my_query)
     randomThing = {'int2k': json_output, 'category': category}

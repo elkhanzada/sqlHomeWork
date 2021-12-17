@@ -17,14 +17,23 @@
   class App extends React.Component {
     state = {
       text: '',
-      category: 'book'
+      category: 'book',
+      genre: '2',
+      publisher: '',
+      rating: "0-6"
     };
 
     componentDidMount() {
     }
 
     processclick = () => {
-      window.location.href = '/searchres/' + this.state.category + '/' + this.state.text;
+      if(this.state.category == "movie"){
+      window.location.href = '/searchres/' + this.state.category+'/'+this.state.genre+'/'+this.state.rating+'/' + this.state.text;
+      }else if (this.state.category=="book"){
+        window.location.href = '/searchres/' + this.state.category+'/'+"2"+'/'+this.state.rating+'/'+ this.state.publisher + '/'+ this.state.text;
+      }else {
+        window.location.href = '/searchres/' + this.state.category+'/'+this.state.genre+'/'+this.state.rating+'/'+ this.state.publisher + '/'+ this.state.text;
+      }
     }
 
     handleTextChange = event => {
@@ -35,7 +44,18 @@
       this.setState({category: event.target.value})
     };
 
+    handlePublisherChange = event => {
+      this.setState({publisher: event.target.value})
+    };
+
+    handleRatingChange = event => {
+      this.setState({rating: event.target.value})
+    };
+    handleGenreChange = event => {
+      this.setState({genre: event.target.value})
+    };
     render() {
+      if (this.state.category=="game"){
       return (
         <div>
           <Typography variant="body1" gutterBottom>
@@ -46,14 +66,112 @@
             <MenuItem value="movie">Movie</MenuItem>
             <MenuItem value="game">Game</MenuItem>
           </Select>
-          <TextField onChange={this.handleTextChange} />
+          <Select value={this.state.genre} onChange={this.handleGenreChange}>
+            <MenuItem value="0">Action</MenuItem>
+            <MenuItem value="1">Adventure</MenuItem>
+            <MenuItem value="2">Arcade</MenuItem>
+            <MenuItem value="3">Board</MenuItem>
+            <MenuItem value="4">Card</MenuItem>
+            <MenuItem value="5">Casino</MenuItem>
+            <MenuItem value="6">Casual</MenuItem>
+            <MenuItem value="7">Educational</MenuItem>
+            <MenuItem value="8">Music</MenuItem>
+            <MenuItem value="9">Puzzle</MenuItem>
+            <MenuItem value="10">Racing</MenuItem>
+            <MenuItem value="11">Role</MenuItem>
+            <MenuItem value="12">Simulation</MenuItem>
+            <MenuItem value="13">Sports</MenuItem>
+            <MenuItem value="14">Strategy</MenuItem>
+            <MenuItem value="15">Trivia</MenuItem>
+            <MenuItem value="16">Word</MenuItem>
+          </Select>
+          <Select value={this.state.rating} onChange={this.handleRatingChange}>
+            <MenuItem value="1-2">1-2</MenuItem>
+            <MenuItem value="2-3">2-3</MenuItem>
+            <MenuItem value="3-4">3-4</MenuItem>
+            <MenuItem value="4-5">4-5</MenuItem>
+            <MenuItem value="0-6">All</MenuItem>
+            </Select>
+          <TextField placeholder="Name" required onChange={this.handleTextChange} />
+          <TextField placeholder="Developer" required onChange={this.handlePublisherChange} />
           <Button onClick={() => this.processclick()}>
             Search
           </Button>
 
         </div>
       );
+      }else if(this.state.category=="movie") {
+        return (
+        <div>
+          <Typography variant="body1" gutterBottom>
+            Search for anything:  
+          </Typography>
+          <Select value={this.state.category} onChange={this.handleCategoryChange}>
+            <MenuItem value="book">Book</MenuItem>
+            <MenuItem value="movie">Movie</MenuItem>
+            <MenuItem value="game">Game</MenuItem>
+          </Select>
+          <Select value={this.state.genre} onChange={this.handleGenreChange}>
+            <MenuItem value="0">Comedy</MenuItem>
+            <MenuItem value="1">Action</MenuItem>
+            <MenuItem value="2">Drama</MenuItem>
+            <MenuItem value="3">Thriller</MenuItem>
+            <MenuItem value="4">Romance</MenuItem>
+            <MenuItem value="5">Documentary</MenuItem>
+            <MenuItem value="6">Crime</MenuItem>
+            <MenuItem value="7">Horror</MenuItem>
+            <MenuItem value="8">Western</MenuItem>
+            <MenuItem value="9">Children</MenuItem>
+            <MenuItem value="10">War</MenuItem>
+            <MenuItem value="11">Mystery</MenuItem>
+            <MenuItem value="12">Sci-Fi</MenuItem>
+            <MenuItem value="13">Animation</MenuItem>
+            <MenuItem value="14">Film-Noir</MenuItem>
+            <MenuItem value="15">Adventure</MenuItem>
+            <MenuItem value="16">Fantasy</MenuItem>
+            <MenuItem value="17">Musical</MenuItem>
+          </Select>
+          <Select value={this.state.rating} onChange={this.handleRatingChange}>
+            <MenuItem value="1-2">1-2</MenuItem>
+            <MenuItem value="2-3">2-3</MenuItem>
+            <MenuItem value="3-4">3-4</MenuItem>
+            <MenuItem value="4-5">4-5</MenuItem>
+            <MenuItem value="0-6">All</MenuItem>
+          </Select>
+          <TextField placeholder="Name" required onChange={this.handleTextChange} />
+          <Button onClick={() => this.processclick()}>
+            Search
+          </Button>
+        </div>
+      );
+      }
+      else {
+        return (
+        <div>
+          <Typography variant="body1" gutterBottom>
+            Search for anything:  
+          </Typography>
+          <Select value={this.state.category} onChange={this.handleCategoryChange}>
+            <MenuItem value="book">Book</MenuItem>
+            <MenuItem value="movie">Movie</MenuItem>
+            <MenuItem value="game">Game</MenuItem>
+          </Select>
+          <Select value={this.state.rating} onChange={this.handleRatingChange}>
+            <MenuItem value="1-2">1-2</MenuItem>
+            <MenuItem value="2-3">2-3</MenuItem>
+            <MenuItem value="3-4">3-4</MenuItem>
+            <MenuItem value="4-5">4-5</MenuItem>
+            <MenuItem value="0-6">All</MenuItem>
+            </Select>
+          <TextField placeholder="Name" required onChange={this.handleTextChange} />
+          <TextField placeholder="Author" required onChange={this.handlePublisherChange} />
+          <Button onClick={() => this.processclick()}>
+            Search
+          </Button>
+        </div>
+        );
     }
+  }
   }
 
   ReactDOM.render(<App />, rootElement);
