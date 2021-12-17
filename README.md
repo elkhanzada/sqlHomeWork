@@ -1,10 +1,12 @@
 # sqlHomeWork
 Once upon a time, We'll work under the "store" directory
 
-in setting.py:
+
+in elkhan/settings.py:
 
 change your correct USER/PASSWORD/HOST/PORT.
-the default one follows exactly what assignment 2 does.
+The default one follows exactly what Assignment 2 does.
+```json
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
@@ -15,7 +17,7 @@ DATABASES = {
         'PORT': '1521',
     }
 }
-
+```
 
 python manage.py startapp ${appname}
 INSTALLED_APPS = [
