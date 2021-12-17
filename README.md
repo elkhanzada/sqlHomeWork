@@ -1,4 +1,4 @@
-# sqlHomeWork
+# Entertainment Recommendation Website
 Once upon a time, We'll work under the "store" directory
 
 
@@ -8,13 +8,13 @@ change your correct USER/PASSWORD/HOST/PORT.
 The default one follows exactly what Assignment 2 does.
 ```json
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'xe',
-        'USER': 'unist',
-        'PASSWORD': 'unist',
-        'HOST': '127.0.0.1', 
-        'PORT': '1521',
+    "default": {
+        "ENGINE": "django.db.backends.oracle",
+        "NAME": "xe",
+        "USER": 'unist',
+        "PASSWORD": "unist",
+        "HOST": "127.0.0.1", 
+        "PORT": "1521"
     }
 }
 ```
