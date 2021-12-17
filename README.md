@@ -18,18 +18,6 @@ The default one follows exactly what Assignment 2 does.
     }
 }
 ```
-
-python manage.py startapp ${appname}
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-     # Add our new application
-    '${appname}.apps.${appname}Config',
-]
 ### Install dependencies
 ```bash
     pip install -r requirements.txt
