@@ -55,6 +55,7 @@ def query_db(cur, query, args=(), one=False):
 sql_search_str = """
 select * from {}
 where name like '%{}%'
+order by -rating
 """
 
 # Create your views here.
