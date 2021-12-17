@@ -34,6 +34,7 @@ get_item_str = """
 SELECT * FROM {0}
 WHERE {1}_id = {2}
 ORDER BY -rating
+FETCH FIRST 20 ROWS ONLY
 """
 
 get_cat_str = """

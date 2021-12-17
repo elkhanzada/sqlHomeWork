@@ -105,13 +105,13 @@
                 {this.state.userReviews.map((value) => {
                     return <ListItem key={value['REVIEW_ID']} >
                         <Typography variant="body1" gutterBottom>
-                          userid: {value['USER_ID']} .
+                          userid: {value['USER_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                          comment: {value['COMMENT_TXT']} .
+                          comment: {value['COMMENT_TXT']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                          rating: {value['RATING']} .
+                          rating: {value['RATING']} 
                         </Typography>
                     </ListItem>
                 })}
@@ -183,15 +183,15 @@
             
             <List>
                 {this.state.userReviews.map((value) => {
-                    return <ListItem key={value['REVIEW_ID']} >
+                  return <ListItem key={value['REVIEW_ID']} >
                         <Typography variant="body1" gutterBottom>
-                            userid: {value['USER_ID']} .
+                          userid: {value['USER_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            comment: {value['COMMENT_TXT']} .
+                          comment: {value['COMMENT_TXT']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            rating: {value['RATING']} .
+                          rating: {value['RATING']} 
                         </Typography>
                     </ListItem>
                 })}
@@ -263,15 +263,15 @@
             
             <List>
                 {this.state.userReviews.map((value) => {
-                    return <ListItem key={value['REVIEW_ID']} >
+                  return <ListItem key={value['REVIEW_ID']} >
                         <Typography variant="body1" gutterBottom>
-                            {value['USER_ID']} 
+                          userid: {value['USER_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            {value['COMMENT_TXT']} 
+                          comment: {value['COMMENT_TXT']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            {value['RATING']} 
+                          rating: {value['RATING']} 
                         </Typography>
                     </ListItem>
                 })}

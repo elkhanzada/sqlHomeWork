@@ -59,25 +59,25 @@
                 {this.state.json.map((value) => {
                     return <ListItem key={value['REVIEW_ID']} onClick={() => this.processclick({id: value['REVIEW_ID']})}>
                         <Typography variant="body1" gutterBottom>
-                            userid: {value['USER_ID']} .
+                            userid: {value['USER_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            gameid: {value['GAME_ID']} .
+                            gameid: {value['GAME_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            bookid: {value['BOOK_ID']} .
+                            bookid: {value['BOOK_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
                             movieid: {value['MOVIE_ID']} .
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            reviewid: {value['REVIEW_ID']} .
+                            reviewid: {value['REVIEW_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
                             comment_txt: {value['COMMENT_TXT']} .
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            rating: {value['RATING']} .
+                            rating: {value['RATING']} |
                         </Typography>
                     </ListItem>
                 })}
