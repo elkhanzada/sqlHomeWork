@@ -7,7 +7,7 @@ in elkhan/settings.py:
 change your correct USER/PASSWORD/HOST/PORT.
 The default one follows exactly what Assignment 2 does.
 ```json
-DATABASES = {
+{
     "default": {
         "ENGINE": "django.db.backends.oracle",
         "NAME": "xe",
