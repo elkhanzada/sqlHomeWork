@@ -160,20 +160,16 @@ insert into review (user_id, game_id, book_id, movie_id, review_id, comment_txt,
 
 def get_max_review_id(cur):
     res = query_db(cur, get_max_review_id_str, one=True)
-    if res is None:
-        res = 0
-    else:
-        res = res['MAX(REVIEW_ID)']
+    #wtf = query_db(cur, 'select count(*) from review')
+    #print("wtf: ", wtf)
+    res = res['MAX(REVIEW_ID)']
     if res is None:
         res = 0
     return res
 
 def get_max_user_id(cur):
     res = query_db(cur, get_max_user_id_str, one=True)
-    if res is None:
-        res = 0
-    else:
-        res = res['MAX(USER_ID)']
+    res = res['MAX(USER_ID)']
     if res is None:
         res = 0
     return res
@@ -187,8 +183,10 @@ def find_user_id_by_name(cur, connection, name):
         email = 'hello@professor.unist.ac.kr'
         cur.execute(create_user_str.format(user_id, name, password, email), ())
         connection.commit()
-        return user_id
-    return res
+        res = None
+        while(res == None):
+            res = getUserIDFromName(cur, name)
+    return res['USER_ID']
 
 # Create your views here.
 @csrf_exempt
@@ -199,12 +197,12 @@ def index(request, category='', id=0):
         " ", request.headers['reviewUserName'])
         review_id = get_max_review_id(cursor) + 1
         user_id = find_user_id_by_name(cursor, connection, request.headers['reviewUserName'])
-        game_id = book_id = movie_id = None
-        if category == 'GAME':
+        game_id = book_id = movie_id = "\'\'"
+        if category == 'game':
             game_id = id
-        if category == 'BOOK':
+        if category == 'book':
             book_id = id
-        if category == 'MOVIE':
+        if category == 'movie':
             movie_id = id
         comment_txt = request.headers['reviewText']
         rating = int(request.headers['reviewRating'])
