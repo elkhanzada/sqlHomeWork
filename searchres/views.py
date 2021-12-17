@@ -63,6 +63,7 @@ def index(request, query='', category=''):
     info_about_items = [category + "_id", "name"]
     if category == "movie":
         info_about_items.append("picture")
+    query = query.upper()
     cmd = sql_search_str.format(category, query)
     my_query = query_db(cursor, cmd)
     json_output = json.dumps(my_query)
