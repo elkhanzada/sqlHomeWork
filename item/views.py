@@ -92,6 +92,26 @@ def get_author(cur, res, category):
     if category == "game":
         return query_db(cur, get_cat_str.format("developer", "dev", res["DEV_ID"]), one=True)["NAME"]
 
+get_similar_item_str = """
+SELECT DISTINCT * FROM (
+(
+    SELECT * FROM {0}
+    WHERE {1}_id = {2}
+    FETCH FIRST 10 ROWS ONLY
+)
+UNION
+(
+    SELECT * FROM {3}
+    WHERE {4}_id = {5}
+    FETCH FIRST 10 ROWS ONLY
+)
+
+) simitem
+ORDER BY -rating
+
+"""
+
+
 def get_in_same_genre(cur, res, category):
     print("GET GENRE")
     if category == "movie":
@@ -109,6 +129,15 @@ def get_in_same_author(cur, res, category):
         return query_db(cur, get_item_str.format("book", "author", res["AUTHOR_ID"]))
     if category == "game":
         return query_db(cur, get_item_str.format("game", "dev", res["DEV_ID"]))
+
+def get_similar_items(cur, res, category):
+    if category == "movie":
+        return get_in_same_genre(cur, res, category)
+    if category == "book":
+        return query_db(cur, get_similar_item_str.format("book", "cat", res["CAT_ID"], "book", "author", res["AUTHOR_ID"]))
+    if category == "game":
+        return query_db(cur, get_item_str.format("game", "cat", res["CAT_ID"], "game", "dev", res["DEV_ID"]))
+
 
 get_item_str2 = """
 SELECT AVG(rating) FROM review
@@ -222,7 +251,7 @@ def index(request, category='', id=0):
     cmd = sql_get_item(category, id)
     my_query = query_db(cursor, cmd)
     my_reviews = get_review(cursor, id, category)
-    json_output = json.dumps(my_query + get_in_same_genre(cursor, my_query[0], category) + get_in_same_author(cursor, my_query[0], category))
+    json_output = json.dumps(my_query + get_similar_items(cursor, my_query[0], category))
     my_reviews_json = json.dumps(my_reviews)
 
     randomThing = {

@@ -14,6 +14,8 @@ The default one follows exactly what Assignment 2 does.
 }
 ```
 ### Install dependencies
+Make sure you have anaconda installed with python version 3.6
+
 ```bash
     pip install -r requirements.txt
 ```
