@@ -5,7 +5,8 @@ from elkhan.settings import DATABASES
 import os
 import sys
 import json
- 
+import hashlib
+
 _user = DATABASES['default']['USER']
 _password = DATABASES['default']['PASSWORD']
 _dsn = DATABASES['default']['HOST']+":"+DATABASES['default']['PORT']
@@ -85,7 +86,7 @@ def find_user_id_by_name(cur, connection, name, password):
         # Create user
         user_id = get_max_user_id(cur) + 1
         email = 'hello@professor.unist.ac.kr'
-        cur.execute(create_user_str.format(user_id, name, password, email), ())
+        cur.execute(create_user_str.format(user_id, name, hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest(), email), ())
         connection.commit()
         res = None
         while(res == None):

@@ -5,6 +5,7 @@ from elkhan.settings import DATABASES
 import os
 import sys
 import json
+import hashlib
  
 _user = DATABASES['default']['USER']
 _password = DATABASES['default']['PASSWORD']
@@ -201,7 +202,7 @@ def index(request, category='', id=0):
         if not user_id:
             return
         user_db_instance = get_user(cursor, user_id)
-        if user_db_instance['PASSWORD'] != request.headers['userPassword']:
+        if user_db_instance['PASSWORD'] != hashlib.sha256(bytes(request.headers['userPassword'], encoding='utf-8')).hexdigest():
             return
         game_id = book_id = movie_id = "\'\'"
         if category == 'game':
