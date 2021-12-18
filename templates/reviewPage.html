@@ -28,7 +28,14 @@
   const items = JSON.parse((el.dataset.json));
 
   const Name = "{{userName}}";
-
+  const highlight = {
+      color: 'blue',
+      fontWeight: 'bold',
+      margin: '5px',
+    };
+  const listSpacing = {
+    margin: '5px',
+  };
   class App extends React.Component {
     state = {
       json: items,
@@ -85,28 +92,37 @@
             <List>
                 {this.state.json.map((value) => {
                     return <ListItem key={value['REVIEW_ID']} onClick={() => this.processclick({id: value['REVIEW_ID']})}>
-                        <Typography variant="body1" gutterBottom>
-                            userid: {value['USER_ID']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            gameid: {value['GAME_ID']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            bookid: {value['BOOK_ID']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            movieid: {value['MOVIE_ID']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            reviewid: {value['REVIEW_ID']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            comment_txt: {value['COMMENT_TXT']} .
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            rating: {value['RATING']} |
-                        </Typography>
-                    </ListItem>
+                                <Typography variant="body1" gutterBottom style={highlight}>
+                                userid:
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={listSpacing}>
+                                {value['USER_ID']} 
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={highlight}>
+                                gameid:
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={listSpacing}>
+                                {value['GAME_ID']} 
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={highlight}>
+                                reviewid:
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={listSpacing}>
+                                {value['REVIEW_ID']}  
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={highlight}>
+                                comment_txt:
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={listSpacing}>
+                                {value['COMMENT_TXT']}
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={highlight}>
+                                rating:
+                                </Typography>
+                                <Typography variant="body1" gutterBottom style={listSpacing}>
+                                {value['RATING']}
+                                </Typography>
+                            </ListItem>;
                 })}
                 <Typography variant="body1" gutterBottom>
                     put your userName:                
