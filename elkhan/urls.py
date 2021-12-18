@@ -25,5 +25,6 @@ urlpatterns += [
     path('store/', include('store.urls')),
     path('searchres/', include('searchres.urls')),
     path('item/', include('item.urls')),
-    path('review/', include('review.urls'))
+    path('review/', include('review.urls')),
+    path('registration/', include('registration.urls'))
 ]

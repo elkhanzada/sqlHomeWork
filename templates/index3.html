@@ -46,6 +46,7 @@
       reviewText:'',
       reviewRating:5,
       reviewUserName:'',
+      reviewPassword:'',
       userReviews:reviews
     };
     componentDidMount() {
@@ -58,7 +59,7 @@
     addReview = (props) => {
         fetch('/item/' + this.state.cat.toLowerCase() + '/' + props.id, {
             method: 'POST',
-            headers: {'reviewText': this.state.reviewText, 'reviewRating': this.state.reviewRating, 'reviewUserName': this.state.reviewUserName}
+            headers: {'reviewText': this.state.reviewText, 'reviewRating': this.state.reviewRating, 'reviewUserName': this.state.reviewUserName, 'userPassword': this.state.reviewPassword}
         }).then(function(response) {
             return
         })
@@ -71,6 +72,11 @@
 
     handleUserNameChange = event => {
       this.setState({reviewUserName: event.target.value})
+    }
+
+
+    handlePasswordChange = event => {
+      this.setState({reviewPassword: event.target.value})
     }
 
     handleRatingChange = event => {
@@ -121,14 +127,22 @@
               put your comment:                
             </Typography>
             <TextField onChange={this.handleTextChange} />
-            <Typography variant="body1" gutterBottom>
-              put your userName:                
-            </Typography>
-            <TextField onChange={this.handleUserNameChange} />
+
             <Typography variant="body1" gutterBottom>
               put your rating (1 - 5):                
             </Typography>
             <TextField onChange={this.handleRatingChange} />
+
+            <Typography variant="body1" gutterBottom>
+              put your userName:                
+            </Typography>
+            <TextField onChange={this.handleUserNameChange} />
+
+            <Typography variant="body1" gutterBottom>
+              put your user password:                
+            </Typography>
+            <TextField onChange={this.handlePasswordChange} type="password"/>
+
             <Button onClick={() => this.addReview({
                 id: this.state.json[0]['MOVIE_ID']})}>
               Submit
@@ -201,14 +215,22 @@
               put your comment:                
             </Typography>
             <TextField onChange={this.handleTextChange} />
-            <Typography variant="body1" gutterBottom>
-              put your userName:                
-            </Typography>
-            <TextField onChange={this.handleUserNameChange} />
+
             <Typography variant="body1" gutterBottom>
               put your rating (1 - 5):                
             </Typography>
             <TextField onChange={this.handleRatingChange} />
+
+            <Typography variant="body1" gutterBottom>
+              put your userName:                
+            </Typography>
+            <TextField onChange={this.handleUserNameChange} />
+
+            <Typography variant="body1" gutterBottom>
+              put your user password:                
+            </Typography>
+            <TextField onChange={this.handlePasswordChange} type="password"/>
+
             <Button onClick={() => this.addReview({
                 id: this.state.json[0]['GAME_ID']})}>
               Submit
@@ -281,14 +303,22 @@
               put your comment:                
             </Typography>
             <TextField onChange={this.handleTextChange} />
-            <Typography variant="body1" gutterBottom>
-              put your userName:                
-            </Typography>
-            <TextField onChange={this.handleUserNameChange} />
+
             <Typography variant="body1" gutterBottom>
               put your rating (1 - 5):                
             </Typography>
             <TextField onChange={this.handleRatingChange} />
+
+            <Typography variant="body1" gutterBottom>
+              put your userName:                
+            </Typography>
+            <TextField onChange={this.handleUserNameChange} />
+
+            <Typography variant="body1" gutterBottom>
+              put your user password:                
+            </Typography>
+            <TextField onChange={this.handlePasswordChange} type="password"/>
+
             <Button onClick={() => this.addReview({
                 id: this.state.json[0]['BOOK_ID']})}>
               Submit

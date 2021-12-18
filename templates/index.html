@@ -43,6 +43,10 @@
       window.location.href = '/review/' + this.state.searchUsername;
     }
 
+    processclickRegistration = () => {
+      window.location.href = '/registration/';
+    }
+
     handleTextChange = event => {
       this.setState({text: event.target.value})
     };
@@ -69,6 +73,10 @@
       if (this.state.category=="game"){
       return (
         <div>
+          <Button variant="contained" onClick={() => this.processclickRegistration()}>
+            Register user
+          </Button>          
+          <div/>
           <Typography variant="body1" gutterBottom>
             Search for anything:  
           </Typography>
@@ -105,7 +113,7 @@
             </Select>
           <TextField placeholder="Name" required onChange={this.handleTextChange} />
           <TextField placeholder="Developer" required onChange={this.handlePublisherChange} />
-          <Button onClick={() => this.processclick()}>
+          <Button variant="contained" onClick={() => this.processclick()}>
             Search
           </Button>
 
@@ -114,7 +122,7 @@
             Search for reviews by username:
           </Typography>
           <TextField placeholder="username" required onChange={this.handleUsernameChange} />
-          <Button onClick={() => this.processclickUsername()}>
+          <Button variant="contained" onClick={() => this.processclickUsername()}>
             Search reviews
           </Button>
 
@@ -123,6 +131,12 @@
       }else if(this.state.category=="movie") {
         return (
         <div>
+          <Button variant="contained" onClick={() => this.processclickRegistration()}>
+            Register user
+          </Button>          
+          <div/>
+
+
           <Typography variant="body1" gutterBottom>
             Search for anything:  
           </Typography>
@@ -159,7 +173,7 @@
             <MenuItem value="0-6">All</MenuItem>
           </Select>
           <TextField placeholder="Name" required onChange={this.handleTextChange} />
-          <Button onClick={() => this.processclick()}>
+          <Button variant="contained" onClick={() => this.processclick()}>
             Search
           </Button>
 
@@ -168,7 +182,7 @@
             Search for reviews by username:
           </Typography>
           <TextField placeholder="username" required onChange={this.handleUsernameChange} />
-          <Button onClick={() => this.processclickUsername()}>
+          <Button variant="contained" onClick={() => this.processclickUsername()}>
             Search reviews
           </Button>
 
@@ -178,6 +192,12 @@
       else {
         return (
         <div>
+          <Button variant="contained" onClick={() => this.processclickRegistration()}>
+            Register user
+          </Button>          
+          <div/>
+
+
           <Typography variant="body1" gutterBottom>
             Search for anything:  
           </Typography>
@@ -195,7 +215,7 @@
             </Select>
           <TextField placeholder="Name" required onChange={this.handleTextChange} />
           <TextField placeholder="Author" required onChange={this.handlePublisherChange} />
-          <Button onClick={() => this.processclick()}>
+          <Button variant="contained" onClick={() => this.processclick()}>
             Search
           </Button>
 
@@ -204,7 +224,7 @@
             Search for reviews by username:
           </Typography>
           <TextField placeholder="username" required onChange={this.handleUsernameChange} />
-          <Button onClick={() => this.processclickUsername()}>
+          <Button variant="contained" onClick={() => this.processclickUsername()}>
             Search reviews
           </Button>
 

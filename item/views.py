@@ -178,16 +178,16 @@ def get_max_user_id(cur):
 def find_user_id_by_name(cur, connection, name):
     res = getUserIDFromName(cur, name)
     if res is None:
-        # Create user
-        user_id = get_max_user_id(cur) + 1
-        password = 'some nonsense'
-        email = 'hello@professor.unist.ac.kr'
-        cur.execute(create_user_str.format(user_id, name, password, email), ())
-        connection.commit()
-        res = None
-        while(res == None):
-            res = getUserIDFromName(cur, name)
+        return
     return res['USER_ID']
+
+get_user_str = """
+select * from users
+where user_id = {0}
+"""
+
+def get_user(cur, user_id):
+    return query_db(cur, get_user_str.format(user_id), one=True)
 
 # Create your views here.
 @csrf_exempt
@@ -195,9 +195,14 @@ def index(request, category='', id=0):
     cursor, connection = connectToSqlServer()
     if(request.method=="POST"):
         print("Add review post request: ", request.headers['reviewText'], " ", request.headers['reviewRating'], 
-        " ", request.headers['reviewUserName'])
+        " ", request.headers['reviewUserName'], request.headers['userPassword'])
         review_id = get_max_review_id(cursor) + 1
         user_id = find_user_id_by_name(cursor, connection, request.headers['reviewUserName'])
+        if not user_id:
+            return
+        user_db_instance = get_user(cursor, user_id)
+        if user_db_instance['PASSWORD'] != request.headers['userPassword']:
+            return
         game_id = book_id = movie_id = "\'\'"
         if category == 'game':
             game_id = id
