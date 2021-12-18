@@ -38,8 +38,39 @@
 
   console.log("{{genre}}")
   console.log("{{author}}")
+  const highlight = {
+      color: 'blue',
+      fontWeight: 'bold',
+      margin: '5px',
+    };
+  const listSpacing = {
+    margin: '5px',
+  };
+  function reviewTemplate(value) {
+    return <ListItem key={value['REVIEW_ID']} >
+                          <Typography variant="body1" gutterBottom style={highlight}>
+                            userid:
+                          </Typography>
+                          <Typography variant="body1" gutterBottom style={listSpacing}>
+                            {value['USER_ID']} 
+                          </Typography>
+                          <Typography variant="body1" gutterBottom style={highlight}>
+                            comment:
+                          </Typography>
+                          <Typography variant="body1" gutterBottom style={listSpacing}>
+                            {value['COMMENT_TXT']} 
+                          </Typography>
+                          <Typography variant="body1" gutterBottom style={highlight}>
+                            rating:
+                          </Typography>
+                          <Typography variant="body1" gutterBottom style={listSpacing}>
+                            {value['RATING']} 
+                          </Typography>
+                        </ListItem>;
+  }
 
   class App extends React.Component {
+    
     state = {
       json: items,
       cat: category,
@@ -109,17 +140,7 @@
 
             <List>
                 {this.state.userReviews.map((value) => {
-                    return <ListItem key={value['REVIEW_ID']} >
-                        <Typography variant="body1" gutterBottom>
-                          userid: {value['USER_ID']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                          comment: {value['COMMENT_TXT']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                          rating: {value['RATING']} 
-                        </Typography>
-                    </ListItem>
+                    return reviewTemplate(value);
                 })}
             </List>
 
@@ -197,17 +218,7 @@
             
             <List>
                 {this.state.userReviews.map((value) => {
-                  return <ListItem key={value['REVIEW_ID']} >
-                        <Typography variant="body1" gutterBottom>
-                          userid: {value['USER_ID']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                          comment: {value['COMMENT_TXT']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                          rating: {value['RATING']} 
-                        </Typography>
-                    </ListItem>
+                  return reviewTemplate(value);
                 })}
             </List>
 
@@ -285,17 +296,7 @@
             
             <List>
                 {this.state.userReviews.map((value) => {
-                  return <ListItem key={value['REVIEW_ID']} >
-                        <Typography variant="body1" gutterBottom>
-                          userid: {value['USER_ID']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                          comment: {value['COMMENT_TXT']} |
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                          rating: {value['RATING']} 
-                        </Typography>
-                    </ListItem>
+                  return reviewTemplate(value)
                 })}
             </List>
 
