@@ -93,7 +93,7 @@ def get_author(cur, res, category):
         return query_db(cur, get_cat_str.format("developer", "dev", res["DEV_ID"]), one=True)["NAME"]
 
 get_similar_item_str = """
-SELECT * FROM (
+SELECT DISTINCT * FROM (
 (
     SELECT * FROM {0}
     WHERE {1}_id = {2}
