@@ -1,11 +1,12 @@
 <div id="root" />
+{% load static %}
 <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
 <script src="https://unpkg.com/@mui/material@latest/umd/material-ui.production.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
+<link rel="stylesheet" href="{% static 'reviewPage.css'  %}" />
 <div data-json='{{int2k}}'></div>
 
 <script type="text/babel">
@@ -23,7 +24,6 @@
     Typography,
     Divider
   } = MaterialUI;
-
   const el = document.querySelector('[data-json]');
 
   console.log(el.dataset.json)
@@ -35,17 +35,41 @@
     state = {
       json: items,
       userName: Name,
+      deletions: []
     };
     componentDidMount() {
     
     }
     processclick = (props) => {
+        const children = event.target.parentElement.children;
+        const parent = event.target.parentElement;
+        for(var i = 0; i<children.length; i++){
+            var temp = children[i]
+            if (temp.style.textDecoration == 'none'){
+                temp.style.textDecoration = 'line-through'
+                if(!this.state.deletions.includes(props.id))
+                    this.state.deletions.push(props.id)
+            }else{
+                this.state.deletions=this.state.deletions.filter(function(ele){ 
+                    return ele != props.id; 
+                });
+
+                temp.style.textDecoration = 'none'
+            }
+            parent.replaceChild(temp,children[i])
+        }
+        console.log(this.state.deletions)
+        // element.classList.toggle("crossed-line");
+    }
+    delete = (props) => {
+        for(var i = 0; i<this.state.deletions.length; i++){
         fetch('/review/' + this.state.userName, {
             method: 'POST',
-            headers: {'deleteReq': props.id}
+            headers: {'deleteReq': this.state.deletions[i]}
         }).then(function(response) {
             return
         })
+    }
         window.location.href = '/review/' + this.state.userName;
     }
 
@@ -57,7 +81,7 @@
             </Typography>
             <div/>
             <Typography variant="body1" gutterBottom>
-            Click on review to delete!
+            Select reviews to delete!
             </Typography>
 
             <List>
@@ -73,7 +97,7 @@
                             bookid: {value['BOOK_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            movieid: {value['MOVIE_ID']} .
+                            movieid: {value['MOVIE_ID']} |
                         </Typography>
                         <Typography variant="body1" gutterBottom>
                             reviewid: {value['REVIEW_ID']} |
@@ -86,6 +110,17 @@
                         </Typography>
                     </ListItem>
                 })}
+                <Typography variant="body1" gutterBottom>
+                    put your userName:                
+                </Typography>
+                <TextField onChange={this.handleUserNameChange} />
+                <Typography variant="body1" gutterBottom>
+                    put your user password:                
+                </Typography>
+                <TextField onChange={this.handlePasswordChange} type="password"/>
+                <Button onClick={() => this.delete()}>
+                    Submit
+                </Button>
             </List>
 
           </div>
