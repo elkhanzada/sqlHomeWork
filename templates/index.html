@@ -20,7 +20,8 @@
       category: 'book',
       genre: '2',
       publisher: 'None',
-      rating: "0-6"
+      rating: "0-6",
+      searchUsername: ""
     };
 
     componentDidMount() {
@@ -37,8 +38,17 @@
       }
     }
 
+
+    processclickUsername = () => {
+      window.location.href = '/review/' + this.state.searchUsername;
+    }
+
     handleTextChange = event => {
       this.setState({text: event.target.value})
+    };
+
+    handleUsernameChange = event => {
+      this.setState({searchUsername: event.target.value})
     };
 
     handleCategoryChange = event => {
@@ -99,6 +109,15 @@
             Search
           </Button>
 
+          <div/>
+          <Typography>
+            Search for reviews by username:
+          </Typography>
+          <TextField placeholder="username" required onChange={this.handleUsernameChange} />
+          <Button onClick={() => this.processclickUsername()}>
+            Search reviews
+          </Button>
+
         </div>
       );
       }else if(this.state.category=="movie") {
@@ -143,6 +162,16 @@
           <Button onClick={() => this.processclick()}>
             Search
           </Button>
+
+          <div/>
+          <Typography>
+            Search for reviews by username:
+          </Typography>
+          <TextField placeholder="username" required onChange={this.handleUsernameChange} />
+          <Button onClick={() => this.processclickUsername()}>
+            Search reviews
+          </Button>
+
         </div>
       );
       }
@@ -169,6 +198,17 @@
           <Button onClick={() => this.processclick()}>
             Search
           </Button>
+
+          <div/>
+          <Typography>
+            Search for reviews by username:
+          </Typography>
+          <TextField placeholder="username" required onChange={this.handleUsernameChange} />
+          <Button onClick={() => this.processclickUsername()}>
+            Search reviews
+          </Button>
+
+
         </div>
         );
     }
