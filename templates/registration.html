@@ -17,7 +17,8 @@
   class App extends React.Component {
     state = {
       password: "",
-      username: ""
+      username: "",
+      email: ""
     };
 
     componentDidMount() {
@@ -26,7 +27,7 @@
     processclick = () => {
       fetch('/registration/', {
             method: 'POST',
-            headers: {'username': this.state.username, 'password': this.state.password}
+            headers: {'username': this.state.username, 'password': this.state.password, 'email': this.state.email}
         }).then(function(response) {
             return
         })
@@ -42,9 +43,14 @@
       this.setState({password: event.target.value})
     };
 
+    handleEmailChange = event => {
+      this.setState({email: event.target.value})
+    };
+
     render() {
       return (
         <div>
+          <TextField placeholder="Email" required onChange={this.handleEmailChange} />
           <TextField placeholder="Username" required onChange={this.handleUsernameChange} />
           <TextField placeholder="Password" required type="password" onChange={this.handlePasswordChange} />
           <Button onClick={() => this.processclick()}>

@@ -80,12 +80,11 @@ def get_max_user_id(cur):
         res = 0
     return res
 
-def find_user_id_by_name(cur, connection, name, password):
+def find_user_id_by_name(cur, connection, name, password, email):
     res = getUserIDFromName(cur, name)
     if res is None:
         # Create user
         user_id = get_max_user_id(cur) + 1
-        email = 'hello@professor.unist.ac.kr'
         cur.execute(create_user_str.format(user_id, name, hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest(), email), ())
         connection.commit()
         res = None
@@ -100,6 +99,6 @@ def index(request):
 
     if (request.method == "POST"):
         print("post request to create user", request.headers["username"], request.headers["password"])
-        find_user_id_by_name(cursor, connection, request.headers['username'], request.headers['password'])
+        find_user_id_by_name(cursor, connection, request.headers['username'], request.headers['password'], request.headers['email'])
         return
     return render(request, 'templates/registration.html')
