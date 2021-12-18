@@ -5,7 +5,8 @@ from elkhan.settings import DATABASES
 import os
 import sys
 import json
- 
+import hashlib
+
 _user = DATABASES['default']['USER']
 _password = DATABASES['default']['PASSWORD']
 _dsn = DATABASES['default']['HOST']+":"+DATABASES['default']['PORT']
@@ -61,11 +62,17 @@ sql_get_reviews_userID = """
 SELECT * FROM review
 WHERE user_id = {0}
 """
-
 sql_delete_review_from_id = """
 DELETE FROM review WHERE review_id = {0}
 """
+get_user_str = """
+select * from users
+where name = '{0}'
+"""
 
+def get_user(username):
+    cur, connection = connectToSqlServer()
+    return query_db(cur, get_user_str.format(username), one=True)
 def deleteReviewFromID(id):
     cursor, connection = connectToSqlServer()
     cursor.execute(sql_delete_review_from_id.format(id))
@@ -80,7 +87,10 @@ def getReviewsFromUserID(cur, userID=0): # dictionary
 # Create your views here.
 @csrf_exempt
 def index(request, userName=''):
+    user_db_instance = get_user(userName)
     if (request.method == "POST"):
+        if user_db_instance['PASSWORD'] != hashlib.sha256(bytes(request.headers['password'], encoding='utf-8')).hexdigest():
+            return
         print("post request to delete review id: ", request.headers["deleteReq"])
         id = int(request.headers["deleteReq"])
         deleteReviewFromID(id)

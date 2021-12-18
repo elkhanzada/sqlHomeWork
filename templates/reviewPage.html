@@ -40,14 +40,20 @@
     state = {
       json: items,
       userName: Name,
-      deletions: []
+      deletions: [],
+      password: ''
     };
     componentDidMount() {
     
     }
+    handlePasswordChange = event => {
+      this.setState({password: event.target.value})
+    }
     processclick = (props) => {
         const children = event.target.parentElement.children;
         const parent = event.target.parentElement;
+        if (parent.nodeName != "LI")  return;
+        console.log(parent)
         for(var i = 0; i<children.length; i++){
             var temp = children[i]
             if (temp.style.textDecoration == 'none'){
@@ -63,14 +69,14 @@
             }
             parent.replaceChild(temp,children[i])
         }
-        console.log(this.state.deletions)
+        // console.log(this.state.deletions)
         // element.classList.toggle("crossed-line");
     }
     delete = (props) => {
         for(var i = 0; i<this.state.deletions.length; i++){
         fetch('/review/' + this.state.userName, {
             method: 'POST',
-            headers: {'deleteReq': this.state.deletions[i]}
+            headers: {'deleteReq': this.state.deletions[i], 'password': this.state.password}
         }).then(function(response) {
             return
         })
@@ -124,10 +130,7 @@
                                 </Typography>
                             </ListItem>;
                 })}
-                <Typography variant="body1" gutterBottom>
-                    put your userName:                
-                </Typography>
-                <TextField onChange={this.handleUserNameChange} />
+            </List>
                 <Typography variant="body1" gutterBottom>
                     put your user password:                
                 </Typography>
@@ -135,7 +138,6 @@
                 <Button onClick={() => this.delete()}>
                     Submit
                 </Button>
-            </List>
 
           </div>
         );
