@@ -17,7 +17,8 @@
     ListItem,
     ListItemText,
     ListItemAvatar,
-    Avatar
+    Avatar,
+    Button
   } = MaterialUI;
 
   const el = document.querySelector('[data-json]');
@@ -38,10 +39,15 @@
     processclick = (props) => {
       window.location.href = '/item/' + this.state.cat.toLowerCase() + '/' + props.id;
     }
-
+    gohome = () => {
+      window.location.href = '/store/'
+    }
     render() {
       return (
         <div>
+          <Button variant="contained" onClick={() => this.gohome()}>
+            HOME
+          </Button>
           <List>
             {this.state.json.map((value) => {
               if (this.state.cat == "MOVIE")

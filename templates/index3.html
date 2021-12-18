@@ -113,11 +113,16 @@
     handleRatingChange = event => {
       this.setState({reviewRating: event.target.value})
     }
-
+    gohome = () => {
+      window.location.href = '/store/'
+    }
     render() {
       if (this.state.cat == "MOVIE") {
         return (
           <div>
+            <Button variant="contained" onClick={() => this.gohome()}>
+            HOME
+            </Button>
             <Typography variant="body1" gutterBottom>
             ID: {this.state.json[0]["MOVIE_ID"]}  
             </Typography>
@@ -194,6 +199,9 @@
       if (this.state.cat == "GAME") {
         return (
           <div>
+            <Button variant="contained" onClick={() => this.gohome()}>
+            HOME
+            </Button>
             <Typography variant="body1" gutterBottom>
             ID: {this.state.json[0]["GAME_ID"]}
             </Typography>
@@ -269,6 +277,9 @@
       if (this.state.cat == "BOOK") {
         return (
           <div>
+            <Button variant="contained" onClick={() => this.gohome()}>
+            HOME
+            </Button>
             <Typography variant="body1" gutterBottom>
             ID: {this.state.json[0]["BOOK_ID"]}  
             </Typography>

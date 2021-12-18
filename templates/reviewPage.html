@@ -83,10 +83,16 @@
     }
         window.location.href = '/review/' + this.state.userName;
     }
+    gohome = () => {
+      window.location.href = '/store/'
+    }
 
     render() {
         return (
           <div>
+            <Button variant="contained" onClick={() => this.gohome()}>
+            HOME
+          </Button>
             <Typography variant="body1" gutterBottom>
             Reviews of user {this.state.userName}
             </Typography>
