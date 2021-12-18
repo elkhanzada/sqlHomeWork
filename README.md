@@ -1,10 +1,5 @@
 # Entertainment Recommendation Website
-Once upon a time, We'll work under the "store" directory
-
-
-in elkhan/settings.py:
-
-change your correct USER/PASSWORD/HOST/PORT.
+In ```elkhan/settings.py```, change your correct USER/PASSWORD/HOST/PORT.
 The default one follows exactly what Assignment 2 does.
 ```json
 {
@@ -22,6 +17,8 @@ The default one follows exactly what Assignment 2 does.
 ```bash
     pip install -r requirements.txt
 ```
+### Load Database
+Use ```unist.sql``` file to load the database
 ### How to Run
 Run the server and go to http://localhost:8000/store/
 ```bash
