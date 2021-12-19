@@ -53,7 +53,6 @@
         const children = event.target.parentElement.children;
         const parent = event.target.parentElement;
         if (parent.nodeName != "LI")  return;
-        console.log(parent)
         for(var i = 0; i<children.length; i++){
             var temp = children[i]
             if (temp.style.textDecoration == 'none'){
@@ -72,16 +71,17 @@
         // console.log(this.state.deletions)
         // element.classList.toggle("crossed-line");
     }
-    delete = (props) => {
+    delete = async(props) => {
+        var wrong = false;
         for(var i = 0; i<this.state.deletions.length; i++){
-        fetch('/review/' + this.state.userName, {
+        const response = await fetch('/review/' + this.state.userName, {
             method: 'POST',
             headers: {'deleteReq': this.state.deletions[i], 'password': this.state.password}
-        }).then(function(response) {
-            return
         })
-    }
-        window.location.href = '/review/' + this.state.userName;
+        if(!response.ok) { wrong = true; break};
+      }
+        if(wrong){alert("Wrong password"); window.location.href = '/review/' + this.state.userName;}
+        else window.location.href = '/review/' + this.state.userName;
     }
     gohome = () => {
       window.location.href = '/store/'

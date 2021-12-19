@@ -86,14 +86,16 @@
     processclick = (props) => {
       window.location.href = '/item/' + this.state.cat.toLowerCase() + '/' + props.id;
     }
-
-    addReview = (props) => {
-        fetch('/item/' + this.state.cat.toLowerCase() + '/' + props.id, {
+     
+    addReview = async(props) => {
+       const response = await fetch('/item/' + this.state.cat.toLowerCase() + '/' + props.id, {
             method: 'POST',
             headers: {'reviewText': this.state.reviewText, 'reviewRating': this.state.reviewRating, 'reviewUserName': this.state.reviewUserName, 'userPassword': this.state.reviewPassword}
-        }).then(function(response) {
-            return
-        })
+        });
+        if(!response.ok) {
+          alert("Wrong credentials")
+          window.location.href = '/item/' + this.state.cat.toLowerCase() + '/' + props.id
+        }else
         window.location.href = '/item/' + this.state.cat.toLowerCase() + '/' + props.id
     }
 

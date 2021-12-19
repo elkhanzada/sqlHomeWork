@@ -6,7 +6,7 @@ import os
 import sys
 import json
 import hashlib
- 
+from django.http import HttpResponse
 _user = DATABASES['default']['USER']
 _password = DATABASES['default']['PASSWORD']
 _dsn = DATABASES['default']['HOST']+":"+DATABASES['default']['PORT']
@@ -246,8 +246,7 @@ def index(request, category='', id=0):
         print("CREATE REVIEW:", create_review_str.format(user_id, game_id, book_id, movie_id, review_id, comment_txt, rating))
         cursor.execute( create_review_str.format(user_id, game_id, book_id, movie_id, review_id, comment_txt, rating), ())
         connection.commit()
-    
-        return
+        return HttpResponse(status=200)
     cmd = sql_get_item(category, id)
     my_query = query_db(cursor, cmd)
     my_reviews = get_review(cursor, id, category)

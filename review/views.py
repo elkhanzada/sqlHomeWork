@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import cx_Oracle
@@ -90,13 +91,16 @@ def index(request, userName=''):
     user_db_instance = get_user(userName)
     if (request.method == "POST"):
         if user_db_instance['PASSWORD'] != hashlib.sha256(bytes(request.headers['password'], encoding='utf-8')).hexdigest():
-            return
+            return HttpResponse(status = 400)
         print("post request to delete review id: ", request.headers["deleteReq"])
         id = int(request.headers["deleteReq"])
         deleteReviewFromID(id)
-        return
+        return HttpResponse(status = 200)
     cursor, connection = connectToSqlServer()
-    myQuery = getReviewsFromUserID(cursor, getUserIDFromName(cursor, userName)) # reviews dict
+    try:
+        myQuery = getReviewsFromUserID(cursor, getUserIDFromName(cursor, userName))
+    except:
+         return render(request, 'templates/nouser.html') # reviews dict
     json_output = json.dumps(myQuery)
     randomThing = {'int2k': json_output, 'userName':userName}
     cursor.connection.close()

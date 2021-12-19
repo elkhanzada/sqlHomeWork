@@ -40,7 +40,8 @@
 
 
     processclickUsername = () => {
-      window.location.href = '/review/' + this.state.searchUsername;
+      if(this.state.searchUsername=='') alert("Enter username!")
+      else window.location.href = '/review/' + this.state.searchUsername;
     }
 
     processclickRegistration = () => {
