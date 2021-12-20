@@ -1,0 +1,66 @@
+<div id="root" />
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.16.4/babel.min.js"></script>
+<script src="https://unpkg.com/@mui/material@latest/umd/material-ui.production.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<script type="text/babel">
+  const rootElement = document.getElementById('root');
+  const {
+    Button,
+    Select,
+    MenuItem,
+    TextField,
+    Typography,
+  } = MaterialUI;
+  class App extends React.Component {
+    state = {
+      password: "",
+      username: "",
+      email: ""
+    };
+
+    componentDidMount() {
+    }
+
+    processclick = () => {
+      fetch('/registration/', {
+            method: 'POST',
+            headers: {'username': this.state.username, 'password': this.state.password, 'email': this.state.email}
+        }).then(function(response) {
+            return
+        })
+        window.location.href = '/store/';
+    }
+
+
+    handleUsernameChange = event => {
+      this.setState({username: event.target.value})
+    };
+
+    handlePasswordChange = event => {
+      this.setState({password: event.target.value})
+    };
+
+    handleEmailChange = event => {
+      this.setState({email: event.target.value})
+    };
+
+    render() {
+      return (
+        <div>
+          <TextField placeholder="Email" required onChange={this.handleEmailChange} />
+          <TextField placeholder="Username" required onChange={this.handleUsernameChange} />
+          <TextField placeholder="Password" required type="password" onChange={this.handlePasswordChange} />
+          <Button onClick={() => this.processclick()}>
+            Register
+          </Button>
+        </div>
+      );
+    }
+  }
+
+  ReactDOM.render(<App />, rootElement);
+    
+</script>
