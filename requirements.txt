@@ -1,5 +1,0 @@
-django
-django-webpack-loader
-django-cors-headers
-djangorestframework
-cx-Oracle
